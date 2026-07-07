@@ -305,11 +305,10 @@ async def finish_order(message: Message, state: FSMContext):
 
     await state.clear()
     await message.answer(
-        "✅ Buyurtmangiz qabul qilindi!\n"
-        f"Buyurtma raqami: <b>#{order_id}</b>\n\n"
-        "Tez orada operatorimiz siz bilan bog'lanadi. Rahmat! 🙏",
-        reply_markup=ReplyKeyboardRemove(),
-    )
+    "✅ Buyurtmangiz qabul qilindi!\n\n"
+    "Tez orada operatorimiz siz bilan bog'lanadi. Rahmat! 🙏",
+    reply_markup=ReplyKeyboardRemove(),
+)
     await message.answer("Yana biror narsa buyurtma qilmoqchimisiz?", reply_markup=main_menu_kb())
 
     # --- Adminga xabar ---

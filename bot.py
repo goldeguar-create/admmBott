@@ -127,6 +127,7 @@ async def cmd_start(message: Message, state: FSMContext):
 # ---------------------------------------------------------------------------
 @router.callback_query(F.data == "order_start")
 async def order_start(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
     await state.set_state(Order.choosing_brand)
     await callback.message.edit_text(
         "Qaysi turdagi (brenddagi) bearing kerak? Tanlang 👇",
@@ -137,6 +138,7 @@ async def order_start(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data.startswith("brand:"))
 async def brand_chosen(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
     brand = callback.data.split(":", 1)[1]
     await state.update_data(brand=brand)
     await state.set_state(Order.typing_model)
@@ -150,6 +152,7 @@ async def brand_chosen(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data == "retype")
 async def retype(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
     await state.set_state(Order.typing_model)
     await callback.message.edit_text("Yangi model raqamini yozib yuboring:")
     await callback.answer()
@@ -190,6 +193,7 @@ async def model_search(message: Message, state: FSMContext):
 
 @router.callback_query(Order.choosing_suggestion, F.data.startswith("pick:"))
 async def pick_suggestion(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
     data = await state.get_data()
     suggestions = data.get("suggestions", [])
     idx = int(callback.data.split(":", 1)[1])
@@ -208,6 +212,7 @@ async def pick_suggestion(callback: CallbackQuery, state: FSMContext):
 # ---------------------------------------------------------------------------
 @router.callback_query(F.data == "confirm_product")
 async def confirm_product(callback: CallbackQuery, state: FSMContext):
+    await callback.answer()
     await state.set_state(Order.typing_quantity)
     await callback.message.edit_text("Nechta dona kerak? (miqdorini raqamda yozing, masalan: 2)")
     await callback.answer()
